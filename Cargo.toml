@@ -1,0 +1,21 @@
+[package]
+name = "proxy_ssh"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+bincode = "1"
+log = "0.4"
+env_logger = "0.11"
+clap = { version = "4", features = ["derive"] }
+anyhow = "1"
+
+[[bin]]
+name = "proxy-server"
+path = "src/server.rs"
+
+[[bin]]
+name = "proxy-client"
+path = "src/client.rs"
