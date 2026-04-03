@@ -22,6 +22,7 @@ SERVER_HOST="104.244.95.160"
 SERVER_USER="root"
 SERVER_CONTROL_PORT=7000
 SERVER_PROXY_PORT=7001
+SERVER_DATA_PORT=7002
 CLIENT_LOCAL_TARGET="127.0.0.1:22"
 HEARTBEAT_INTERVAL=10
 HEARTBEAT_TIMEOUT=30
@@ -65,6 +66,7 @@ info "配置确认:"
 echo "  服务器: ${SERVER_USER}@${SERVER_HOST}"
 echo "  控制端口: ${SERVER_CONTROL_PORT}"
 echo "  代理端口: ${SERVER_PROXY_PORT}"
+echo "  数据端口: ${SERVER_DATA_PORT}"
 echo "  本地转发: ${CLIENT_LOCAL_TARGET}"
 echo ""
 read -p "确认部署? [y/N] " confirm
@@ -117,7 +119,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=${INSTALL_PATH}/proxy-server --control-port ${SERVER_CONTROL_PORT} --proxy-port ${SERVER_PROXY_PORT} --secret "${SECRET}" --heartbeat-timeout ${HEARTBEAT_TIMEOUT}
+ExecStart=${INSTALL_PATH}/proxy-server --control-port ${SERVER_CONTROL_PORT} --proxy-port ${SERVER_PROXY_PORT} --data-port ${SERVER_DATA_PORT} --secret "${SECRET}" --heartbeat-timeout ${HEARTBEAT_TIMEOUT}
 Restart=always
 RestartSec=3
 Environment=RUST_LOG=info
@@ -162,7 +164,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=${INSTALL_PATH}/proxy-client --server ${SERVER_HOST} --control-port ${SERVER_CONTROL_PORT} --local-target ${CLIENT_LOCAL_TARGET} --secret "${SECRET}" --heartbeat-interval ${HEARTBEAT_INTERVAL} --max-reconnect-delay ${MAX_RECONNECT_DELAY}
+ExecStart=${INSTALL_PATH}/proxy-client --server ${SERVER_HOST} --control-port ${SERVER_CONTROL_PORT} --data-port ${SERVER_DATA_PORT} --local-target ${CLIENT_LOCAL_TARGET} --secret "${SECRET}" --heartbeat-interval ${HEARTBEAT_INTERVAL} --max-reconnect-delay ${MAX_RECONNECT_DELAY}
 Restart=always
 RestartSec=3
 Environment=RUST_LOG=info
@@ -203,7 +205,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=${INSTALL_PATH}/proxy-client --server ${SERVER_HOST} --control-port ${SERVER_CONTROL_PORT} --local-target ${CLIENT_LOCAL_TARGET} --secret "${SECRET}" --heartbeat-interval ${HEARTBEAT_INTERVAL} --max-reconnect-delay ${MAX_RECONNECT_DELAY}
+ExecStart=${INSTALL_PATH}/proxy-client --server ${SERVER_HOST} --control-port ${SERVER_CONTROL_PORT} --data-port ${SERVER_DATA_PORT} --local-target ${CLIENT_LOCAL_TARGET} --secret "${SECRET}" --heartbeat-interval ${HEARTBEAT_INTERVAL} --max-reconnect-delay ${MAX_RECONNECT_DELAY}
 Restart=always
 RestartSec=3
 Environment=RUST_LOG=info
@@ -237,7 +239,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-ExecStart=${INSTALL_PATH}/proxy-client --server ${SERVER_HOST} --control-port ${SERVER_CONTROL_PORT} --local-target ${CLIENT_LOCAL_TARGET} --secret "${SECRET}" --heartbeat-interval ${HEARTBEAT_INTERVAL} --max-reconnect-delay ${MAX_RECONNECT_DELAY}
+ExecStart=${INSTALL_PATH}/proxy-client --server ${SERVER_HOST} --control-port ${SERVER_CONTROL_PORT} --data-port ${SERVER_DATA_PORT} --local-target ${CLIENT_LOCAL_TARGET} --secret "${SECRET}" --heartbeat-interval ${HEARTBEAT_INTERVAL} --max-reconnect-delay ${MAX_RECONNECT_DELAY}
 Restart=always
 RestartSec=3
 Environment=RUST_LOG=info
